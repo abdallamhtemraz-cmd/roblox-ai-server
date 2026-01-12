@@ -1,14 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import anthropic
+from openai import OpenAI
 import os
 
 app = Flask(__name__)
 CORS(app)
 
-# هناخد الـ API Key من Environment Variables
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY')
-client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+# API Key من OpenAI
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -19,18 +19,23 @@ def chat():
         if not user_message:
             return jsonify({'reply': 'لم أستلم رسالة'}), 400
         
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        # إرسال للـ ChatGPT
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",  # أو gpt-4 لو عايز
+            messages=[
+                {"role": "system", "content": "أنت مساعد ذكي ومفيد في لعبة Roblox."},
+                {"role": "user", "content": user_message}
+            ],
             max_tokens=500,
-            messages=[{"role": "user", "content": user_message}]
+            temperature=0.7
         )
         
-        reply = message.content[0].text
+        reply = response.choices[0].message.content
         return jsonify({'reply': reply, 'status': 'success'})
         
     except Exception as e:
         print(f"Error: {str(e)}")
-        return jsonify({'reply': 'عذراً، حدث خطأ'}), 500
+        return jsonify({'reply': 'عذراً، حدث خطأ', 'error': str(e)}), 500
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -38,7 +43,7 @@ def health():
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({'message': 'Roblox AI Server is running!'})
+    return jsonify({'message': 'Roblox ChatGPT Server'})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
