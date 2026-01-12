@@ -43,19 +43,3 @@ def home():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
-```
-
-4. اضغط **"Commit changes"** (أسفل الصفحة)
-
----
-
-**📄 ملف 2: `requirements.txt`**
-
-1. اضغط **"Add file" → "Create new file"** تاني
-2. اسم الملف: `requirements.txt`
-3. الصق:
-```
-flask
-flask-cors
-anthropic
-gunicorn
