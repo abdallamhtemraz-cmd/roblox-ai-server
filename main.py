@@ -7,7 +7,8 @@ app = Flask(__name__)
 CORS(app)
 
 # API Key من Google AI Studio (مجاني!)
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+# يقبل GOOGLE_API_KEY أو GEMINI_API_KEY
+GEMINI_API_KEY = os.environ.get('GOOGLE_API_KEY') or os.environ.get('GEMINI_API_KEY', '')
 genai.configure(api_key=GEMINI_API_KEY)
 
 # إعداد الموديل
