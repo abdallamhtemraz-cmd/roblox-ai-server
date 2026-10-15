@@ -3,112 +3,87 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071b18">
 <title>خزنة مصر الرقمية</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  color-scheme: dark;
-  --bg:#071b18; --panel:#102823; --panel2:#15352e;
-  --green:#36d399; --text:#f0faf6; --muted:#a1bdb2;
-  --border:#285046; --red:#ff7777; --gold:#f5c76b;
+:root{
+ color-scheme:dark;--bg:#071b18;--panel:#102823;--panel2:#15352e;
+ --green:#36d399;--text:#f0faf6;--muted:#a1bdb2;
+ --border:#285046;--red:#ff7777;--gold:#f5c76b
 }
 *{box-sizing:border-box}
-body{
- margin:0;background:radial-gradient(ellipse at top,#153e32,var(--bg) 65%);
- color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh
-}
-button,input{font:inherit}
-button{cursor:pointer}
-header{
- padding:20px 5%;border-bottom:1px solid var(--border);
- display:flex;align-items:center;justify-content:space-between;gap:15px;
- background:#071b18dd;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)
-}
+body{margin:0;background:radial-gradient(ellipse at top,#153e32,var(--bg) 65%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+header{padding:17px 5%;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#071b18ed;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
 .brand{display:flex;align-items:center;gap:12px}
-.logo{
- width:48px;height:48px;border-radius:15px;background:var(--green);
- color:#05251b;display:grid;place-items:center;font-size:25px;font-weight:bold
-}
-h1{font-size:20px;margin:0 0 5px}
+.logo{width:46px;height:46px;border-radius:15px;background:var(--green);color:#05251b;display:grid;place-items:center;font-size:25px;font-weight:bold}
+h1{font-size:19px;margin:0 0 5px}h2{font-size:18px;margin:0 0 12px}
 .sub{color:var(--muted);font-size:12px}
-main{max-width:1100px;margin:auto;padding:25px 16px 60px}
-.card{
- background:linear-gradient(145deg,var(--panel),#0b211c);
- border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:18px;
- box-shadow:0 12px 35px #0002
-}
-h2{font-size:18px;margin:0 0 10px}
+main{max-width:1200px;margin:auto;padding:24px 15px 55px}
+.card{background:linear-gradient(145deg,var(--panel),#0b211c);border:1px solid var(--border);border-radius:19px;padding:20px;margin-bottom:17px;box-shadow:0 12px 35px #0002}
 p{line-height:1.8}
 label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
-input{
- width:100%;min-width:0;padding:13px 14px;border-radius:12px;
- border:1px solid var(--border);background:#081d18;color:var(--text);outline:none
-}
+input{width:100%;min-width:0;padding:12px;border-radius:12px;border:1px solid var(--border);background:#081d18;color:var(--text);outline:none}
 input:focus{border-color:var(--green)}
 .field{margin:14px 0}
-button{
- border:0;border-radius:12px;padding:12px 16px;font-weight:bold;
- background:var(--green);color:#05251b;transition:.2s
-}
+button{border:0;border-radius:11px;padding:11px 14px;font-weight:bold;background:var(--green);color:#05251b;transition:.2s}
 button:hover{filter:brightness(1.08)}
-button:disabled{opacity:.5;cursor:not-allowed}
 .secondary{background:var(--panel2);border:1px solid var(--border);color:var(--text)}
 .danger{background:#572a2a;color:#ffdede;border:1px solid #804141}
-.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.stat{padding:17px;background:#0a211b;border:1px solid var(--border);border-radius:15px}
-.stat strong{display:block;font-size:26px;color:var(--green);margin-top:8px}
+.top-actions,.toolbar,.tabs,.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tabs{margin-bottom:17px}
+.tabs button{flex:1;min-width:115px}
+.tabs button.active{outline:2px solid var(--green);background:#1d4939;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.stats.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.stat{padding:15px;background:#0a211b;border:1px solid var(--border);border-radius:14px;min-width:0}
+.stat strong{display:block;font-size:25px;color:var(--green);margin-top:8px;overflow-wrap:anywhere}
 .stat span{font-size:12px;color:var(--muted)}
-.toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:18px 0}
-.record{
- background:#0a211b;border:1px solid var(--border);border-radius:16px;
- padding:17px;margin-top:12px
-}
-.record-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.name{font-size:17px;font-weight:bold;overflow-wrap:anywhere}
-.meta{font-size:12px;color:var(--muted);line-height:1.9;margin-top:7px}
-.pill{
- display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;
- background:#1c4737;color:#9ff2cc;white-space:nowrap
-}
-.pill.restored{background:#42371b;color:#ffe19a}
-.details{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:9px;margin-top:15px
-}
+.toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;margin:16px 0}
+.record{background:#0a211b;border:1px solid var(--border);border-radius:15px;padding:15px;margin-top:11px;min-width:0}
+.record.current{border-color:#25895e}
+.record.deleted{border-color:#a64b4b}
+.record.restored{border-color:#8b7437}
+.record-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.name{font-size:16px;font-weight:bold;overflow-wrap:anywhere}
+.meta{font-size:12px;color:var(--muted);line-height:1.9;margin-top:7px;overflow-wrap:anywhere}
+.pill{display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;background:#1c4737;color:#9ff2cc;white-space:nowrap}
+.pill.red{background:#572a2a;color:#ffdede}
+.pill.gold{background:#42371b;color:#ffe19a}
+.details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
 .detail{background:#102b23;border-radius:10px;padding:10px;min-width:0}
 .detail small{display:block;color:var(--muted);margin-bottom:6px}
 .detail div{overflow-wrap:anywhere;white-space:pre-wrap;font-size:13px}
-.record-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
-.record-actions button{flex:1}
-.message{padding:12px;border-radius:12px;line-height:1.7;margin:12px 0;overflow-wrap:anywhere}
+.actions{margin-top:13px}.actions button{flex:1}
+.message{padding:12px;border-radius:11px;line-height:1.7;margin:12px 0;overflow-wrap:anywhere}
 .error{background:#492626;color:#ffd2d2}
 .success{background:#143b2b;color:#aaf3ca}
 .notice{background:#302a19;color:#f8e4ac;border:1px solid #5d5029}
-.empty{text-align:center;color:var(--muted);padding:32px 10px}
+.empty{text-align:center;color:var(--muted);padding:28px 10px}
 .hidden{display:none!important}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.small-btn{padding:8px 10px;font-size:12px}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-@media(max-width:600px){
- header{padding:13px 14px}.logo{width:41px;height:41px}
- h1{font-size:16px}.sub{font-size:11px}
- main{padding:16px 11px 35px}.card{padding:16px;border-radius:16px}
- .stats{gap:7px}.stat{padding:12px 9px}.stat strong{font-size:21px}
- .stat span{font-size:11px}.toolbar{grid-template-columns:1fr}
- .details{grid-template-columns:1fr}.record-head{gap:8px}
- .record{padding:13px}.record-actions button{min-width:100%}
+@media(max-width:650px){
+ header{padding:12px}.logo{width:40px;height:40px}h1{font-size:16px}
+ main{padding:14px 10px 30px}.card{padding:14px;border-radius:15px}
+ .stats{gap:6px}.stat{padding:11px 8px}.stat strong{font-size:20px}.stat span{font-size:10px}
+ .stats.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .toolbar{grid-template-columns:1fr}.details{grid-template-columns:1fr}
+ .record{padding:12px}.actions button{min-width:100%}.tabs button{min-width:95px}
 }
 </style>
 </head>
 <body>
-
 <header>
  <div class="brand">
   <div class="logo">خ</div>
   <div>
    <h1>خزنة مصر الرقمية</h1>
-   <div class="sub">حفظ السجلات واسترجاعها بأمان</div>
+   <div class="sub">لوحة السجلات والمراقبة</div>
   </div>
  </div>
  <div class="top-actions">
@@ -120,7 +95,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 <main>
  <section id="loginCard" class="card">
   <h2>🔐 دخول الأدمن</h2>
-  <p class="sub">سجّل الدخول بحساب الأدمن الموجود في مشروع Supabase الأصلي.</p>
+  <p class="sub">استخدم حساب الأدمن المسجل في مشروع Supabase الأصلي.</p>
   <div class="field">
    <label for="username">اسم المستخدم أو البريد الإلكتروني</label>
    <input id="username" autocomplete="username" placeholder="اسم المستخدم">
@@ -134,353 +109,621 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
  </section>
 
  <section id="app" class="hidden">
-  <div class="card">
-   <h2>لوحة الخزنة</h2>
-   <p class="sub">اعرض السجلات المؤرشفة وابحث فيها، أو استرجع سجلًا محذوفًا إلى جدول الطلبات الأصلي.</p>
-   <div class="stats">
-    <div class="stat"><span>إجمالي السجلات</span><strong id="totalCount">0</strong></div>
-    <div class="stat"><span>لم تُسترجع</span><strong id="deletedCount">0</strong></div>
-    <div class="stat"><span>سبق استرجاعها</span><strong id="restoredCount">0</strong></div>
-   </div>
-  </div>
+  <nav class="tabs" aria-label="أقسام الخزنة">
+   <button class="active" data-tab="dashboard">الرئيسية</button>
+   <button class="secondary" data-tab="current">الطلبات الحالية</button>
+   <button class="secondary" data-tab="archive">الأرشيف</button>
+   <button class="secondary" data-tab="monitor">الأجهزة والسجل</button>
+  </nav>
 
-  <div class="card">
-   <h2>سجلات الأرشيف</h2>
-   <div class="toolbar">
-    <input id="search" placeholder="ابحث بالاسم أو الهاتف أو الرقم القومي..." autocomplete="off">
-    <button id="refreshBtn" class="secondary">↻ تحديث</button>
+  <section id="tab-dashboard">
+   <div class="card">
+    <h2>📊 إحصائيات الطلبات</h2>
+    <p class="sub">الأعداد تُقرأ من جدول requests مباشرة، وفق صلاحيات حساب الأدمن.</p>
+    <div class="stats four">
+     <div class="stat"><span>إجمالي الطلبات</span><strong id="requestTotal">—</strong></div>
+     <div class="stat"><span>تم</span><strong id="doneCount">—</strong></div>
+     <div class="stat"><span>ملغي</span><strong id="rejectedCount">—</strong></div>
+     <div class="stat"><span>قيد المراجعة</span><strong id="pendingCount">—</strong></div>
+    </div>
+    <div id="requestStatsMsg" aria-live="polite"></div>
    </div>
-   <div id="notice" class="message notice">
-    تنبيه: الأرشيف يحفظ الحذف الذي يحدث بعد تفعيل نظام الأرشفة فقط.
+   <div class="card">
+    <h2>🗄️ إحصائيات الأرشيف</h2>
+    <div class="stats">
+     <div class="stat"><span>إجمالي السجلات المؤرشفة</span><strong id="archiveTotal">—</strong></div>
+     <div class="stat"><span>لم تُسترجع</span><strong id="archiveDeleted">—</strong></div>
+     <div class="stat"><span>سبق استرجاعها</span><strong id="archiveRestored">—</strong></div>
+    </div>
    </div>
-   <div id="status" aria-live="polite"></div>
-   <div id="records"></div>
-  </div>
+   <div class="card">
+    <h2>📱 الأجهزة النشطة</h2>
+    <p class="sub">الجهاز نشط إذا أرسل تحديثًا خلال آخر دقيقتين. يتطلب تسجيل النشاط من الصفحة التي يفتحها المستخدم.</p>
+    <div class="stats">
+     <div class="stat"><span>أجهزة نشطة</span><strong id="activeCount">—</strong></div>
+     <div class="stat"><span>أحداث سجل الدخول</span><strong id="historyCount">—</strong></div>
+     <div class="stat"><span>آخر تحديث</span><strong id="lastUpdate" style="font-size:15px">—</strong></div>
+    </div>
+   </div>
+  </section>
+
+  <section id="tab-current" class="hidden">
+   <div class="card">
+    <div class="section-title">
+     <h2>🟢 الطلبات الحالية</h2>
+     <button class="secondary small-btn refresh">↻ تحديث</button>
+    </div>
+    <p class="sub">السجلات الموجودة حاليًا في جدول requests تظهر بإطار أخضر.</p>
+    <div class="toolbar">
+     <input id="currentSearch" placeholder="ابحث بالاسم أو الهاتف أو الرقم القومي..." autocomplete="off">
+     <button class="secondary refresh">تحديث</button>
+    </div>
+    <div id="currentMsg" aria-live="polite"></div>
+    <div id="currentRecords"></div>
+   </div>
+  </section>
+
+  <section id="tab-archive" class="hidden">
+   <div class="card">
+    <div class="section-title">
+     <h2>🔴 سجلات الأرشيف</h2>
+     <button class="secondary small-btn refresh">↻ تحديث</button>
+    </div>
+    <p class="sub">السجلات المحذوفة تظهر بالأحمر. الاسترجاع يعتمد على دالة restore_archived_request الموجودة في Supabase.</p>
+    <div class="toolbar">
+     <input id="archiveSearch" placeholder="ابحث بالاسم أو الهاتف أو الرقم القومي..." autocomplete="off">
+     <button class="secondary refresh">تحديث</button>
+    </div>
+    <div class="message notice">الأرشيف يحفظ عمليات الحذف التي حدثت بعد تفعيل نظام الأرشفة فقط، ولا يعيد تلقائيًا بيانات حُذفت قبله.</div>
+    <div id="archiveMsg" aria-live="polite"></div>
+    <div id="archiveRecords"></div>
+   </div>
+  </section>
+
+  <section id="tab-monitor" class="hidden">
+   <div class="card">
+    <div class="section-title">
+     <h2>🟢 الأجهزة النشطة</h2>
+     <button class="secondary small-btn refresh">↻ تحديث</button>
+    </div>
+    <p class="sub">الأجهزة التي حدّثت last_seen_at خلال آخر دقيقتين.</p>
+    <div id="sessionsMsg" aria-live="polite"></div>
+    <div id="sessionsRecords"></div>
+   </div>
+   <div class="card">
+    <div class="section-title">
+     <h2>🧾 سجل الدخول والزيارات</h2>
+     <button class="secondary small-btn refresh">↻ تحديث</button>
+    </div>
+    <p class="sub">يعرض الأحداث التي سُجلت في vault_login_history.</p>
+    <div id="historyMsg" aria-live="polite"></div>
+    <div id="historyRecords"></div>
+   </div>
+  </section>
  </section>
 </main>
-
-<footer>خزنة مصر الرقمية · الوصول للسجلات يخضع لصلاحيات قاعدة البيانات</footer>
+<footer>خزنة مصر الرقمية · الوصول للسجلات يخضع لصلاحيات Supabase</footer>
 
 <script>
 "use strict";
 
-/* ضع رابط مشروع Supabase والمفتاح العام هنا */
 const SUPABASE_URL = "https://nwgcvifsdveerllbmbgp.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_xGXiD-DTd3qknbjxQ4luDw_1yDkwSZC";
-
+const SUPABASE_ANON_KEY = "sb_publishable_xGXiD-DTd3qknbjxQ4LuDw_1yDkwSZC";
 const $ = id => document.getElementById(id);
-let sb = null;
-let allRecords = [];
-let busy = false;
 
-function showMessage(target, text, type) {
- const el = $(target);
- el.className = "message " + (type || "error");
+let sb = null;
+let allRequests = [];
+let allArchives = [];
+let allSessions = [];
+let allHistory = [];
+let busy = false;
+let presenceTimer = null;
+let sessionKey = null;
+let activeTab = "dashboard";
+
+function message(id, text, type = "error") {
+ const el = $(id);
+ el.className = "message " + type;
  el.textContent = text;
  el.classList.remove("hidden");
 }
-
-function clearMessage(target) {
- $(target).textContent = "";
- $(target).className = "";
+function clearMessage(id) {
+ const el = $(id);
+ el.textContent = "";
+ el.className = "";
 }
-
-function escapeHTML(value) {
- return String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
- }[ch]));
-}
-
 function formatDate(value) {
  if (!value) return "—";
- const date = new Date(value);
- if (Number.isNaN(date.getTime())) return String(value);
+ const d = new Date(value);
+ if (Number.isNaN(d.getTime())) return String(value);
  return new Intl.DateTimeFormat("ar-EG", {
-  year:"numeric", month:"2-digit", day:"2-digit",
-  hour:"2-digit", minute:"2-digit", hour12:true
- }).format(date);
+  year:"numeric",month:"2-digit",day:"2-digit",
+  hour:"2-digit",minute:"2-digit",hour12:true
+ }).format(d);
 }
-
+function displayValue(value) {
+ if (value === null || value === undefined || value === "") return "—";
+ return typeof value === "object" ? JSON.stringify(value) : String(value);
+}
 function getName(row) {
- return row.full_name || row.name || row.serial_no || "سجل بدون اسم";
+ return row?.full_name || row?.name || row?.serial_no || "سجل بدون اسم";
 }
-
-function getSearchText(record) {
- const data = record.snapshot || {};
- return [
-  record.original_request_id,
-  ...Object.values(data).map(v =>
-   typeof v === "object" && v !== null ? JSON.stringify(v) : String(v ?? "")
-  )
- ].join(" ").toLowerCase();
+function searchable(row) {
+ return JSON.stringify(row || {}).toLowerCase();
 }
-
 function setBusy(value) {
  busy = value;
  $("loginBtn").disabled = value;
- $("refreshBtn").disabled = value;
+ document.querySelectorAll(".refresh").forEach(b => b.disabled = value);
  $("logoutBtn").disabled = value;
 }
+function deviceInfo() {
+ const ua = navigator.userAgent || "";
+ let os = "نظام غير معروف";
+ if (/Windows NT 10/.test(ua)) os = "Windows";
+ else if (/Android/.test(ua)) os = "Android";
+ else if (/iPhone|iPad|iPod/.test(ua)) os = "iOS";
+ else if (/Mac OS X/.test(ua)) os = "macOS";
+ else if (/Linux/.test(ua)) os = "Linux";
 
-async function loadRecords() {
- if (!sb) return;
- $("status").textContent = "جارٍ تحميل السجلات...";
- $("records").replaceChildren();
+ let browser = "متصفح غير معروف";
+ if (/Edg\//.test(ua)) browser = "Microsoft Edge";
+ else if (/Firefox\//.test(ua)) browser = "Firefox";
+ else if (/Chrome\//.test(ua) && !/Edg\//.test(ua)) browser = "Chrome";
+ else if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) browser = "Safari";
 
- const { data, error } = await sb
-  .from("requests_archive")
-  .select("archive_id, original_request_id, snapshot, archive_action, archived_at, restored_at")
-  .order("archived_at", { ascending:false })
-  .limit(1000);
-
- if (error) {
-  $("status").textContent = "";
-  showMessage("notice",
-   "تعذر تحميل الأرشيف: " + error.message +
-   " — تأكد من تسجيل الدخول وسياسات القراءة في Supabase.",
-   "error");
-  return;
- }
-
- allRecords = data || [];
- $("totalCount").textContent = allRecords.length;
- $("deletedCount").textContent = allRecords.filter(r => !r.restored_at).length;
- $("restoredCount").textContent = allRecords.filter(r => !!r.restored_at).length;
- $("status").textContent = "";
- renderRecords();
+ let type = /Mobi|Android|iPhone|iPod/i.test(ua) ? "هاتف" :
+  /iPad|Tablet/i.test(ua) ? "تابلت" : "كمبيوتر أو جهاز آخر";
+ return {
+  os, browser, type,
+  name: (navigator.userAgentData?.platform || os) + " · " + type
+ };
 }
+function getSessionKey() {
+ try {
+  let key = sessionStorage.getItem("vault_session_key");
+  if (!key) {
+   key = crypto.randomUUID ? crypto.randomUUID() + crypto.randomUUID() :
+    "vault-" + Date.now() + "-" + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+   sessionStorage.setItem("vault_session_key", key);
+  }
+  return key;
+ } catch {
+  return "vault-" + Date.now() + "-" + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+ }
+}
+async function trackPresence() {
+ if (!sb || !sessionKey) return;
+ const d = deviceInfo();
+ const { error } = await sb.rpc("vault_track_presence", {
+  p_session_key: sessionKey,
+  p_device_name: d.name,
+  p_device_type: d.type,
+  p_os_name: d.os,
+  p_browser_name: d.browser
+ });
+ if (error) console.warn("Presence tracking:", error.message);
+}
+function startPresence() {
+ if (presenceTimer) clearInterval(presenceTimer);
+ sessionKey = getSessionKey();
+ trackPresence();
+ presenceTimer = setInterval(trackPresence, 30000);
+}
+async function endPresence() {
+ if (presenceTimer) clearInterval(presenceTimer);
+ presenceTimer = null;
+ if (sb && sessionKey) {
+  const { error } = await sb.rpc("vault_end_presence", {
+   p_session_key: sessionKey
+  });
+  if (error) console.warn("Presence logout:", error.message);
+ }
+ sessionKey = null;
+}
+function switchTab(tab) {
+ activeTab = tab;
+ document.querySelectorAll("[data-tab]").forEach(b => {
+  b.classList.toggle("active", b.dataset.tab === tab);
+  b.classList.toggle("secondary", b.dataset.tab !== tab);
+ });
+ ["dashboard","current","archive","monitor"].forEach(name => {
+  $("tab-" + name).classList.toggle("hidden", name !== tab);
+ });
+ if (tab === "current") renderCurrent();
+ if (tab === "archive") renderArchive();
+ if (tab === "monitor") renderMonitoring();
+}
+function addDetail(container, label, value) {
+ const box = document.createElement("div");
+ box.className = "detail";
+ const small = document.createElement("small");
+ small.textContent = label;
+ const val = document.createElement("div");
+ val.textContent = displayValue(value);
+ box.append(small, val);
+ container.appendChild(box);
+}
+function renderDetails(row, container) {
+ const details = document.createElement("div");
+ details.className = "details";
+ const labels = {
+  full_name:"الاسم",mother_name:"اسم الأم",national_id:"الرقم القومي",
+  phone:"رقم الهاتف",factory_number:"رقم المصنع",serial_no:"المسلسل",
+  paid_amount:"المبلغ المدفوع",remaining_amount:"المتبقي",
+  case_type:"سبب الحالة",office_name:"المكتب",
+  separation_reason:"سبب الفصل",merge_reason:"سبب الضم",
+  related_name:"الاسم المرتبط",related_national_id:"الرقم القومي المرتبط",
+  from_governorate:"من محافظة",to_governorate:"إلى محافظة",
+  status:"الحالة",rejection_reason:"سبب الإلغاء",
+  created_at:"تاريخ الإنشاء",reviewed_at:"تاريخ المراجعة"
+ };
+ const used = new Set();
+ for (const [key,label] of Object.entries(labels)) {
+  if (row[key] === undefined || row[key] === null || row[key] === "") continue;
+  addDetail(details, label, key === "status" ? statusLabel(row[key]) : row[key]);
+  used.add(key);
+ }
+ for (const [key,value] of Object.entries(row)) {
+  if (used.has(key) || value === null || value === "") continue;
+  addDetail(details, key, value);
+ }
+ container.appendChild(details);
+}
+function statusLabel(status) {
+ return ({done:"تم",rejected:"ملغي",pending:"قيد المراجعة"})[status] || status || "غير محدد";
+}
+function makeRecord(row, kind) {
+ const article = document.createElement("article");
+ article.className = "record " + kind;
+ const head = document.createElement("div");
+ head.className = "record-head";
+ const info = document.createElement("div");
+ const name = document.createElement("div");
+ name.className = "name";
+ name.textContent = getName(row.snapshot || row);
+ const meta = document.createElement("div");
+ meta.className = "meta";
 
-function renderRecords() {
- const term = $("search").value.trim().toLowerCase();
- const records = allRecords.filter(r => !term || getSearchText(r).includes(term));
- const root = $("records");
+ if (kind === "deleted" || kind === "restored") {
+  meta.textContent = "رقم الأرشيف: " + row.archive_id +
+   " · رقم السجل الأصلي: " + (row.original_request_id || "—") +
+   " · تاريخ الأرشفة: " + formatDate(row.archived_at);
+ } else {
+  meta.textContent = "رقم السجل: " + (row.serial_no || row.id || "—") +
+   " · تاريخ الإنشاء: " + formatDate(row.created_at);
+ }
+ info.append(name, meta);
+
+ const badge = document.createElement("span");
+ badge.className = "pill";
+ if (kind === "deleted") {
+  badge.classList.add("red");
+  badge.textContent = "محذوف";
+ } else if (kind === "restored") {
+  badge.classList.add("gold");
+  badge.textContent = "سبق استرجاعه";
+ } else {
+  badge.textContent = statusLabel(row.status);
+  if (row.status === "rejected") badge.classList.add("red");
+  if (row.status === "pending") badge.classList.add("gold");
+ }
+ head.append(info, badge);
+ article.appendChild(head);
+
+ const detailsHost = document.createElement("div");
+ renderDetails(kind === "deleted" || kind === "restored" ? (row.snapshot || {}) : row, detailsHost);
+ article.appendChild(detailsHost);
+
+ const actions = document.createElement("div");
+ actions.className = "actions";
+ const copy = document.createElement("button");
+ copy.className = "secondary";
+ copy.textContent = "نسخ البيانات";
+ copy.addEventListener("click", async () => {
+  try {
+   await navigator.clipboard.writeText(JSON.stringify(row.snapshot || row, null, 2));
+   copy.textContent = "تم النسخ ✓";
+   setTimeout(() => copy.textContent = "نسخ البيانات", 1500);
+  } catch {
+   alert("تعذر النسخ. جرّب فتح الموقع عبر HTTPS.");
+  }
+ });
+ actions.appendChild(copy);
+
+ if ((kind === "deleted") && !row.restored_at) {
+  const restore = document.createElement("button");
+  restore.textContent = "↩ استرجاع للاستعلام";
+  restore.addEventListener("click", async () => {
+   if (busy) return;
+   if (!confirm("استرجاع السجل رقم " + row.archive_id + " إلى جدول الطلبات؟\nستظل نسخة الأرشيف محفوظة.")) return;
+   setBusy(true);
+   restore.textContent = "جارٍ الاسترجاع...";
+   const { data, error } = await sb.rpc("restore_archived_request", {
+    p_archive_id: row.archive_id
+   });
+   setBusy(false);
+   if (error) {
+    restore.textContent = "↩ استرجاع للاستعلام";
+    alert("تعذر الاسترجاع:\n" + error.message +
+     "\nلم يتم حذف نسخة الأرشيف.");
+    return;
+   }
+   if (data === false || data?.success === false) {
+    restore.textContent = "↩ استرجاع للاستعلام";
+    alert("الدالة لم تؤكد نجاح الاسترجاع. راجع بيانات السجل والدالة في Supabase.");
+    return;
+   }
+   alert("انتهى استدعاء الاسترجاع. سنحدّث القائمة؛ تأكد من ظهور السجل في الطلبات الحالية.");
+   await refreshAll();
+  });
+  actions.appendChild(restore);
+ }
+ article.appendChild(actions);
+ return article;
+}
+function renderList(rootId, rows, kind, emptyText) {
+ const root = $(rootId);
  root.replaceChildren();
-
- if (!records.length) {
+ if (!rows.length) {
   const empty = document.createElement("div");
   empty.className = "empty";
-  empty.textContent = allRecords.length
-   ? "لا توجد نتائج مطابقة للبحث."
-   : "لا توجد سجلات مؤرشفة حتى الآن.";
+  empty.textContent = emptyText;
   root.appendChild(empty);
   return;
  }
+ rows.forEach(row => root.appendChild(makeRecord(row, kind)));
+}
+function renderCurrent() {
+ const term = $("currentSearch").value.trim().toLowerCase();
+ const rows = allRequests.filter(r => !term || searchable(r).includes(term));
+ renderList("currentRecords", rows, "current",
+  allRequests.length ? "لا توجد نتائج مطابقة." : "لا توجد طلبات ظاهرة أو تعذرت قراءتها.");
+}
+function renderArchive() {
+ const term = $("archiveSearch").value.trim().toLowerCase();
+ const rows = allArchives.filter(r => !term || searchable(r).includes(term));
+ const mapped = rows.map(r => ({...r, _kind:r.restored_at ? "restored" : "deleted"}));
+ const root = $("archiveRecords");
+ root.replaceChildren();
+ if (!mapped.length) {
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = allArchives.length ? "لا توجد نتائج مطابقة." : "لا توجد سجلات مؤرشفة.";
+  root.appendChild(empty);
+  return;
+ }
+ mapped.forEach(r => root.appendChild(makeRecord(r, r._kind)));
+}
+function renderMonitoring() {
+ const cutoff = Date.now() - 120000;
+ const active = allSessions.filter(s => new Date(s.last_seen_at).getTime() >= cutoff);
+ $("activeCount").textContent = active.length;
+ $("historyCount").textContent = allHistory.length;
+ $("lastUpdate").textContent = formatDate(new Date().toISOString());
 
- for (const record of records) {
-  const snapshot = record.snapshot || {};
-  const article = document.createElement("article");
-  article.className = "record";
-
-  const head = document.createElement("div");
-  head.className = "record-head";
-
-  const info = document.createElement("div");
-  const name = document.createElement("div");
-  name.className = "name";
-  name.textContent = getName(snapshot);
-
-  const meta = document.createElement("div");
-  meta.className = "meta";
-  meta.textContent =
-   "رقم الأرشيف: " + record.archive_id +
-   " · رقم السجل الأصلي: " + (record.original_request_id || "—") +
-   " · تاريخ الحفظ: " + formatDate(record.archived_at);
-
-  info.append(name, meta);
-
-  const badge = document.createElement("span");
-  badge.className = "pill" + (record.restored_at ? " restored" : "");
-  badge.textContent = record.restored_at ? "تم الاسترجاع" : "محذوف";
-  head.append(info, badge);
-  article.appendChild(head);
-
-  const details = document.createElement("div");
-  details.className = "details";
-
-  const preferred = [
-   ["الاسم","full_name"], ["اسم الأم","mother_name"],
-   ["الرقم القومي","national_id"], ["رقم الهاتف","phone"],
-   ["رقم المصنع","factory_number"], ["المسلسل","serial_no"],
-   ["المبلغ المدفوع","paid_amount"], ["المتبقي","remaining_amount"],
-   ["سبب الحالة","case_type"], ["المكتب","office_name"],
-   ["سبب الفصل","separation_reason"], ["سبب الضم","merge_reason"]
-  ];
-
-  const shown = new Set();
-  for (const [label, key] of preferred) {
-   if (snapshot[key] === undefined || snapshot[key] === null || snapshot[key] === "") continue;
-   shown.add(key);
-   const box = document.createElement("div");
-   box.className = "detail";
-   const small = document.createElement("small");
-   small.textContent = label;
-   const value = document.createElement("div");
-   value.textContent = typeof snapshot[key] === "object"
-    ? JSON.stringify(snapshot[key]) : String(snapshot[key]);
-   box.append(small, value);
-   details.appendChild(box);
-  }
-
-  for (const [key, value] of Object.entries(snapshot)) {
-   if (shown.has(key) || value === null || value === "") continue;
-   const box = document.createElement("div");
-   box.className = "detail";
-   const small = document.createElement("small");
-   small.textContent = key;
-   const val = document.createElement("div");
-   val.textContent = typeof value === "object" ? JSON.stringify(value) : String(value);
-   box.append(small, val);
-   details.append(small, val);
-   box.append(small, val);
-   details.appendChild(box);
-  }
-
-  article.appendChild(details);
-
-  const actions = document.createElement("div");
-  actions.className = "record-actions";
-
-  const copy = document.createElement("button");
-  copy.className = "secondary";
-  copy.textContent = "نسخ البيانات";
-  copy.addEventListener("click", async () => {
-   try {
-    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
-    copy.textContent = "تم النسخ ✓";
-    setTimeout(() => copy.textContent = "نسخ البيانات", 1500);
-   } catch {
-    alert("تعذر النسخ من المتصفح. حاول فتح الموقع عبر HTTPS.");
-   }
+ const sessionsRoot = $("sessionsRecords");
+ sessionsRoot.replaceChildren();
+ if (!active.length) {
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = "لا توجد جلسات أرسلت تحديثًا خلال آخر دقيقتين. تأكد من ربط الموقع الأصلي بوظائف تسجيل النشاط.";
+  sessionsRoot.appendChild(empty);
+ } else {
+  active.forEach(s => {
+   const article = document.createElement("article");
+   article.className = "record current";
+   const title = document.createElement("div");
+   title.className = "name";
+   title.textContent = s.device_name || "جهاز غير معروف";
+   article.appendChild(title);
+   const details = document.createElement("div");
+   details.className = "details";
+   addDetail(details, "نوع الحساب", s.account_role === "admin" ? "أدمن" : "ضيف");
+   addDetail(details, "اسم الحساب", s.account_email || "ضيف");
+   addDetail(details, "نوع الجهاز", s.device_type);
+   addDetail(details, "نظام التشغيل", s.os_name);
+   addDetail(details, "المتصفح", s.browser_name);
+   addDetail(details, "بدأ النشاط", formatDate(s.started_at));
+   addDetail(details, "آخر تحديث", formatDate(s.last_seen_at));
+   article.appendChild(details);
+   sessionsRoot.appendChild(article);
   });
-  actions.appendChild(copy);
+ }
 
-  if (!record.restored_at) {
-   const restore = document.createElement("button");
-   restore.textContent = "↩ استرجاع للاستعلام";
-   restore.addEventListener("click", async () => {
-    if (busy) return;
-    const confirmed = confirm(
-     "هل تريد استرجاع السجل رقم " + record.archive_id +
-     " إلى جدول الطلبات الأصلي؟\nلن تُحذف نسخة الأرشيف."
-    );
-    if (!confirmed) return;
-
-    setBusy(true);
-    restore.disabled = true;
-    restore.textContent = "جارٍ الاسترجاع...";
-
-    const { data, error } = await sb.rpc("restore_archived_request", {
-     p_archive_id: record.archive_id
-    });
-
-    setBusy(false);
-
-    if (error) {
-     restore.disabled = false;
-     restore.textContent = "↩ استرجاع للاستعلام";
-     alert("تعذر الاسترجاع:\n" + error.message);
-     return;
-    }
-
-    if (data === false) {
-     alert("لم تتم الإضافة؛ غالبًا يوجد سجل بنفس المعرّف بالفعل. لم تُحذف نسخة الأرشيف.");
-     await loadRecords();
-     return;
-    }
-
-    alert("تم استرجاع السجل بنجاح. تحقّق من ظهوره في صفحة الاستعلام.");
-    await loadRecords();
-   });
-   actions.appendChild(restore);
-  }
-
-  article.appendChild(actions);
-  root.appendChild(article);
+ const historyRoot = $("historyRecords");
+ historyRoot.replaceChildren();
+ if (!allHistory.length) {
+  const empty = document.createElement("div");
+  empty.className = "empty";
+  empty.textContent = "لا يوجد سجل دخول أو زيارات حتى الآن.";
+  historyRoot.appendChild(empty);
+ } else {
+  allHistory.forEach(h => {
+   const article = document.createElement("article");
+   article.className = "record";
+   const title = document.createElement("div");
+   title.className = "name";
+   title.textContent = ({
+    login:"تسجيل دخول أدمن",
+    logout:"تسجيل خروج",
+    guest_visit:"زيارة ضيف"
+   })[h.event_type] || h.event_type;
+   article.appendChild(title);
+   const details = document.createElement("div");
+   details.className = "details";
+   addDetail(details, "اسم الحساب", h.account_email || "ضيف");
+   addDetail(details, "نوع الجهاز", h.device_type);
+   addDetail(details, "نظام التشغيل", h.os_name);
+   addDetail(details, "المتصفح", h.browser_name);
+   addDetail(details, "التاريخ والوقت", formatDate(h.created_at));
+   article.appendChild(details);
+   historyRoot.appendChild(article);
+  });
  }
 }
-
+async function loadRequests() {
+ clearMessage("requestStatsMsg");
+ clearMessage("currentMsg");
+ const { data, error } = await sb.from("requests").select("*")
+  .order("created_at", {ascending:false}).limit(1000);
+ if (error) {
+  message("requestStatsMsg", "تعذر قراءة الطلبات: " + error.message);
+  $("requestTotal").textContent = "—";
+  $("doneCount").textContent = "—";
+  $("rejectedCount").textContent = "—";
+  $("pendingCount").textContent = "—";
+  allRequests = [];
+  renderCurrent();
+  return;
+ }
+ allRequests = data || [];
+ $("requestTotal").textContent = allRequests.length;
+ $("doneCount").textContent = allRequests.filter(r => r.status === "done").length;
+ $("rejectedCount").textContent = allRequests.filter(r => r.status === "rejected").length;
+ $("pendingCount").textContent = allRequests.filter(r => r.status === "pending").length;
+ renderCurrent();
+}
+async function loadArchives() {
+ clearMessage("archiveMsg");
+ const { data, error } = await sb.from("requests_archive")
+  .select("archive_id,original_request_id,snapshot,archive_action,archived_at,archived_by,restored_at")
+  .order("archived_at", {ascending:false}).limit(1000);
+ if (error) {
+  message("archiveMsg", "تعذر قراءة الأرشيف: " + error.message);
+  allArchives = [];
+ } else {
+  allArchives = data || [];
+ }
+ $("archiveTotal").textContent = allArchives.length;
+ $("archiveDeleted").textContent = allArchives.filter(r => !r.restored_at).length;
+ $("archiveRestored").textContent = allArchives.filter(r => !!r.restored_at).length;
+ renderArchive();
+}
+async function loadMonitoring() {
+ clearMessage("sessionsMsg");
+ clearMessage("historyMsg");
+ const [sessionsResult, historyResult] = await Promise.all([
+  sb.from("vault_device_sessions").select("*").order("last_seen_at", {ascending:false}).limit(500),
+  sb.from("vault_login_history").select("*").order("created_at", {ascending:false}).limit(500)
+ ]);
+ if (sessionsResult.error) {
+  allSessions = [];
+  message("sessionsMsg", "تعذر قراءة الأجهزة: " + sessionsResult.error.message);
+ } else {
+  allSessions = sessionsResult.data || [];
+ }
+ if (historyResult.error) {
+  allHistory = [];
+  message("historyMsg", "تعذر قراءة سجل الدخول: " + historyResult.error.message);
+ } else {
+  allHistory = historyResult.data || [];
+ }
+ renderMonitoring();
+}
+async function refreshAll() {
+ if (!sb) return;
+ setBusy(true);
+ await Promise.all([loadRequests(),loadArchives(),loadMonitoring()]);
+ setBusy(false);
+}
+async function isAdmin(userId) {
+ const { data, error } = await sb.from("admin_profiles")
+  .select("user_id").eq("user_id", userId).maybeSingle();
+ if (error) throw new Error("تعذر التحقق من صلاحية الأدمن: " + error.message);
+ if (!data) throw new Error("هذا الحساب غير موجود في قائمة الأدمن المسموح لهم بدخول الخزنة.");
+ return true;
+}
 async function openApp() {
+ const { data, error } = await sb.auth.getUser();
+ if (error || !data.user) {
+  $("loginCard").classList.remove("hidden");
+  $("app").classList.add("hidden");
+  return;
+ }
+ try {
+  await isAdmin(data.user.id);
+ } catch (e) {
+  await sb.auth.signOut();
+  $("loginCard").classList.remove("hidden");
+  $("app").classList.add("hidden");
+  message("loginMsg", e.message);
+  return;
+ }
  $("loginCard").classList.add("hidden");
  $("app").classList.remove("hidden");
  $("logoutBtn").classList.remove("hidden");
-
- const { data } = await sb.auth.getUser();
- $("userLabel").textContent = data.user?.email || "الأدمن";
- await loadRecords();
+ $("userLabel").textContent = data.user.email || "الأدمن";
+ startPresence();
+ await refreshAll();
 }
-
 async function start() {
- if (SUPABASE_URL.includes("ضع_") || SUPABASE_ANON_KEY.includes("ضع_")) {
-  showMessage("loginMsg",
-   "أضف رابط Supabase والمفتاح العام في أول الكود قبل تسجيل الدخول.",
-   "error");
-  return;
- }
-
  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
  const { data, error } = await sb.auth.getSession();
  if (error) {
-  showMessage("loginMsg", error.message, "error");
+  message("loginMsg", "تعذر فحص الجلسة: " + error.message);
   return;
  }
  if (data.session) await openApp();
 }
-
 $("loginBtn").addEventListener("click", async () => {
- if (!sb) {
-  await start();
-  if (!sb) return;
- }
-
+ if (!sb) return;
  const username = $("username").value.trim();
  const password = $("password").value;
-
  if (!username || !password) {
-  showMessage("loginMsg", "اكتب اسم المستخدم وكلمة المرور.", "error");
+  message("loginMsg", "اكتب اسم المستخدم وكلمة المرور.");
   return;
  }
-
  const email = username.includes("@") ? username : username + "@gmail.com";
-
  setBusy(true);
  clearMessage("loginMsg");
-
- const { error } = await sb.auth.signInWithPassword({ email, password });
+ const { error } = await sb.auth.signInWithPassword({email,password});
  setBusy(false);
-
  if (error) {
-  showMessage("loginMsg", "فشل تسجيل الدخول: " + error.message, "error");
+  message("loginMsg", "فشل تسجيل الدخول: " + error.message);
   return;
  }
-
  await openApp();
 });
-
 $("password").addEventListener("keydown", e => {
  if (e.key === "Enter") $("loginBtn").click();
 });
 $("username").addEventListener("keydown", e => {
  if (e.key === "Enter") $("password").focus();
 });
-$("search").addEventListener("input", renderRecords);
-$("refreshBtn").addEventListener("click", loadRecords);
-
 $("logoutBtn").addEventListener("click", async () => {
- if (!sb) return;
+ if (!sb || busy) return;
+ setBusy(true);
+ await endPresence();
  const { error } = await sb.auth.signOut();
+ setBusy(false);
  if (error) {
   alert("تعذر تسجيل الخروج: " + error.message);
   return;
  }
- allRecords = [];
+ allRequests = [];
+ allArchives = [];
+ allSessions = [];
+ allHistory = [];
  $("app").classList.add("hidden");
  $("loginCard").classList.remove("hidden");
  $("logoutBtn").classList.add("hidden");
  $("userLabel").textContent = "";
  $("password").value = "";
+ clearMessage("loginMsg");
 });
-
+document.querySelectorAll("[data-tab]").forEach(b =>
+ b.addEventListener("click", () => switchTab(b.dataset.tab))
+);
+document.querySelectorAll(".refresh").forEach(b =>
+ b.addEventListener("click", refreshAll)
+);
+$("currentSearch").addEventListener("input", renderCurrent);
+$("archiveSearch").addEventListener("input", renderArchive);
+window.addEventListener("pagehide", () => {
+ // لا نعتمد على هذا الحدث وحده؛ إغلاق المتصفح قد يمنع إرسال طلب الخروج.
+ if (presenceTimer) clearInterval(presenceTimer);
+});
 start();
 </script>
 </body>
